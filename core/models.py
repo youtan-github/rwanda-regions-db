@@ -1,5 +1,5 @@
 from django.db import models
-from .Utilities import generate_unique_code
+from .utilities import generate_unique_code
 # Create your models here.
 
 
