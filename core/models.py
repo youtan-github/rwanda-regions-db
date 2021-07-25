@@ -1,5 +1,5 @@
 from django.db import models
-from .utilities import generate_unique_code
+from django.utils.crypto import get_random_string
 # Create your models here.
 
 
@@ -8,8 +8,16 @@ class Place(models.Model):
     name = models.CharField(max_length=100)
     coordinates = models.CharField(max_length=250)
 
+    def generate_unique_code(self):
+        code = get_random_string(7)
+        object_test = Place.objects.filter(code=code).exists()
+        while object_test:
+            code = get_random_string(9)
+            object_test = Place.objects.filter(code=code).exists()
+        self.code = 'RW-' + code
+
     def save(self, *args, **kwargs):
-        self.code = generate_unique_code()
+        self.generate_unique_code()
         super(Place, self).save(*args, **kwargs)
 
 
